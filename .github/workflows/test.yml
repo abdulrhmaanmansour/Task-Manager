@@ -1,12 +1,15 @@
-name: Simple Check
+name: Real CI Test
 on: push
 jobs:
-  check:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check files exist
-        run: |
-          test -f index.html || { echo "missing index.html"; exit 1; }
-          test -f app.js || { echo "missing app.js"; exit 1; }
-          echo "Files are OK"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
